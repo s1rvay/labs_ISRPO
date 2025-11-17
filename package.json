@@ -1,0 +1,14 @@
+{
+  "name": "cmake-simple-builder",
+  "displayName": "CMake Simple Builder", 
+  "version": "1.0.0",
+  "engines": { "vscode": "^1.75.0" },
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [{
+      "command": "cmake-simple-builder.buildAndTest",
+      "title": "CMake: Build and Test Simple"
+    }]
+  },
+  "activationEvents": []
+}
