@@ -1,5 +1,6 @@
 # Техническая документация CMake Simple Builder
 
+```
 /**
  * CMake Simple Builder - VS Code Extension
  * Автоматическая сборка и тестирование CMake проектов
@@ -153,3 +154,4 @@ function activate(context) {
 module.exports = {
     activate
 };
+```
