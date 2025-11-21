@@ -1,10 +1,7 @@
 # Техническая документация CMake Simple Builder
 
 ```
-/**
- * CMake Simple Builder - VS Code Extension
- * Автоматическая сборка и тестирование CMake проектов
- */
+
 
 const vscode = require('vscode');
 const { exec } = require('child_process');
@@ -13,14 +10,14 @@ const { exec } = require('child_process');
  * Активирует расширение при загрузке VS Code
  * 
  * @function activate
- * @param {vscode.ExtensionContext} context - Контекст расширения для управления жизненным циклом и подписками
- * @returns {void}
+ * вход {vscode.ExtensionContext} context - Контекст расширения для управления жизненным циклом и подписками
+ * возвращает {void}
  * 
- * @example
+ * пример:
  * // Вызывается автоматически VS Code при активации расширения
  * activate(context);
  * 
- * @description
+ * описание:
  * Функция инициализирует расширение, регистрирует команды и настраивает обработчики.
  * Является точкой входа для расширения VS Code.
  */
@@ -31,12 +28,12 @@ function activate(context) {
      * Регистрирует и настраивает основную команду плагина
      * Команда выполняет полный цикл сборки и тестирования CMake проекта
      * 
-     * @type {vscode.Disposable}
+     * вход: {vscode.Disposable}
      */
     let command = vscode.commands.registerCommand('cmake-simple-builder.buildAndTest', function () {
         /**
          * Проверка наличия открытой рабочей области
-         * @type {readonly vscode.WorkspaceFolder[] | undefined}
+         * вход: {readonly vscode.WorkspaceFolder[]}
          */
         const workspaceFolders = vscode.workspace.workspaceFolders;
         
@@ -47,13 +44,13 @@ function activate(context) {
 
         /**
          * Получение пути к рабочей директории
-         * @type {string}
+         * вход: {string}
          */
         const workspacePath = workspaceFolders[0].uri.fsPath;
         
         /**
          * Создание и отображение панели для вывода информации
-         * @type {vscode.OutputChannel}
+         * вход: {vscode.OutputChannel}
          */
         const outputChannel = vscode.window.createOutputChannel('CMake Simple Builder');
         outputChannel.show();
@@ -69,10 +66,10 @@ function activate(context) {
         
         /**
          * Выполняет команду CMake конфигурации
-         * @param {string} 'cmake -B build' - Команда для конфигурации проекта
-         * @param {Object} options - Опции выполнения команды
-         * @param {string} options.cwd - Рабочая директория
-         * @param {Function} callback - Функция обратного вызова при завершении
+         * принимает: {string} 'cmake -B build' - Команда для конфигурации проекта
+         * принимает: {Object} options - Опции выполнения команды
+         * принимает: {string} options.cwd - Рабочая директория
+         * принимает: {Function} callback - Функция обратного вызова при завершении
          */
         exec('cmake -B build', { cwd: workspacePath }, (error, stdout, stderr) => {
             if (error) {
@@ -89,10 +86,10 @@ function activate(context) {
             
             /**
              * Выполняет команду сборки CMake проекта
-             * @param {string} 'cmake --build build' - Команда для сборки проекта
-             * @param {Object} options - Опции выполнения команды
-             * @param {string} options.cwd - Рабочая директория
-             * @param {Function} callback - Функция обратного вызова при завершении
+             * принимает: {string} 'cmake --build build' - Команда для сборки проекта
+             * принимает: {Object} options - Опции выполнения команды
+             * принимает: {string} options.cwd - Рабочая директория
+             * принимает: {Function} callback - Функция обратного вызова при завершении
              */
             exec('cmake --build build', { cwd: workspacePath }, (error, stdout, stderr) => {
                 if (error) {
@@ -109,10 +106,10 @@ function activate(context) {
                 
                 /**
                  * Выполняет команду тестирования CTest
-                 * @param {string} 'ctest -V' - Команда для запуска тестов с подробным выводом
-                 * @param {Object} options - Опции выполнения команды
-                 * @param {string} options.cwd - Рабочая директория (папка build)
-                 * @param {Function} callback - Функция обратного вызова при завершении
+                 * принимает: {string} 'ctest -V' - Команда для запуска тестов с подробным выводом
+                 * принимает: {Object} options - Опции выполнения команды
+                 * принимает: {string} options.cwd - Рабочая директория (папка build)
+                 * принимает: {Function} callback - Функция обратного вызова при завершении
                  */
                 exec('ctest -V', { cwd: workspacePath + '/build' }, (error, stdout, stderr) => {
                     if (error) {
@@ -124,7 +121,7 @@ function activate(context) {
                     
                     /**
                      * Показывает информационное сообщение об успешном завершении
-                     * @type {vscode.Disposable}
+                     * принимает: {vscode.Disposable}
                      */
                     vscode.window.showInformationMessage('CMake build and test completed!');
                 });
@@ -139,18 +136,7 @@ function activate(context) {
     context.subscriptions.push(command);
 }
 
-/**
- * Экспорт функций для VS Code
- * 
- * @module cmake-simple-builder
- * @property {Function} activate - Функция активации расширения
- * 
- * @example
- * // VS Code автоматически импортирует и вызывает эти функции
- * module.exports = {
- *     activate: activate
- * };
- */
+
 module.exports = {
     activate
 };
